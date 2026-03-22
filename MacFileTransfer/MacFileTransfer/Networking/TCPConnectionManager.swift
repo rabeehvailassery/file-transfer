@@ -75,6 +75,12 @@ final class TCPConnectionManager {
         conn.send(content: pkt, completion: .contentProcessed { _ in })
     }
 
+    /// Send pre-framed bytes directly (used by FileTransferEngine for chunks/acks).
+    func sendRaw(_ data: Data, to id: UUID) {
+        guard let (conn, _) = activeConnections[id] else { return }
+        conn.send(content: data, completion: .contentProcessed { _ in })
+    }
+
     // MARK: - Private
 
     private func performHandshake(on conn: NWConnection) {

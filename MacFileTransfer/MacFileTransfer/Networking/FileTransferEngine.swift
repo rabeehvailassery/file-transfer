@@ -13,6 +13,9 @@ final class FileTransferEngine {
     static let chunkSize = 2 * 1024 * 1024   // 2 MB
     weak var delegate: FileTransferEngineDelegate?
 
+    /// Set this before receiving so chunks auto-register to the correct folder.
+    var receiveDirectory: URL?
+
     private var sendCheckpoints: [String: Int]  = [:]
     private var sendPaused:      [String: Bool] = [:]
     private var sendCancelled:   [String: Bool] = [:]
@@ -116,6 +119,12 @@ final class FileTransferEngine {
     }
 
     func handleIncomingChunk(_ msg: FileChunkMessage, fromDeviceId: UUID) {
+        // Auto-register on first chunk using the sender's fileId (avoids UUID mismatch).
+        if receiveHandles[msg.fileId] == nil, let dir = receiveDirectory {
+            let totalBytes = Int64(msg.totalChunks) * Int64(msg.chunkSize)
+            prepareReceive(fileId: msg.fileId, fileName: msg.fileName,
+                           totalBytes: totalBytes, destinationFolder: dir)
+        }
         guard let chunkData = Data(base64Encoded: msg.data),
               let handle    = receiveHandles[msg.fileId] else { return }
         handle.seekToEndOfFile(); handle.write(chunkData)

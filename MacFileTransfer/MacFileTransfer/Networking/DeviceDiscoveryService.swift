@@ -122,7 +122,7 @@ final class DeviceDiscoveryService {
 
     // MARK: - Helpers
 
-    private static func loadOrCreateDeviceId() -> String {
+    static func loadOrCreateDeviceId() -> String {
         let key = "com.filetransfer.deviceId"
         if let v = UserDefaults.standard.string(forKey: key) { return v }
         let new = UUID().uuidString
