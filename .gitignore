@@ -1,0 +1,44 @@
+# ── Xcode ──────────────────────────────────────────────────────────────
+.DS_Store
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+build/
+
+# Swift Package Manager
+.build/
+*.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# ── Android ────────────────────────────────────────────────────────────
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.class
+bin/
+gen/
+out/
+
+# ── General ────────────────────────────────────────────────────────────
+*.log
+*.tmp
+.env
